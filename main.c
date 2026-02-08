@@ -8,12 +8,13 @@ int main() {
 
   // Open /proc/stat in read mode
   FILE* fp = fopen("/proc/stat", "r");
-
-  // Read the first line using fgets()
-  if (fgets(buffer, BUFFER_SIZE, fp) != NULL) {
-    printf("Data from /proc/stat: %s", buffer);
-  } else {
-    printf("Count not read a line or file is empty.\n");
+  while (1) {
+    // Read the first line using fgets()
+    if (fgets(buffer, BUFFER_SIZE, fp) != NULL) {
+      printf("Data from /proc/stat: %s", buffer);
+    } else {
+      printf("Count not read a line or file is empty.\n");
+    }
   }
 
   fclose(fp);
