@@ -15,6 +15,7 @@ int main() {
     } else {
       printf("Count not read a line or file is empty.\n");
     }
+    sleep(1);
   }
 
   fclose(fp);
