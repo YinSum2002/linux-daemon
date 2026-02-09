@@ -19,6 +19,12 @@ int main() {
       // Read the first line using fgets()
       if (fgets(buffer, BUFFER_SIZE, fp) != NULL) {
         printf("Data from /proc/stat: %s", buffer);
+
+        // if following characters are ('c' 'p' 'u') or (' '):
+          // skip ahead
+        // if we have a series of numbers as chars:
+          // begin extracting (there's a whole bunch of logic to this)
+
       } else {
         printf("Count not read a line or file is empty.\n");
       }
