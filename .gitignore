@@ -1,0 +1,21 @@
+# Executables
+monitor
+*.out
+*.exe
+
+# Object files
+*.o
+
+# Static/Dynamic libs
+*.a
+*.so
+
+# macOS junk (you *are* hopping between Mac and Linux)
+.DS_Store
+
+# Editors
+.vscode/
+*.swp
+
+# Build directories (future-proofing)
+build/
