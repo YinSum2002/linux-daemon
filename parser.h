@@ -4,10 +4,10 @@
 struct CPUStatus
 {
     /* data */
-    int user;
-    int nice;
-    int system;
-    int idle;
+    unsigned long long user;
+    unsigned long long nice;
+    unsigned long long system;
+    unsigned long long idle;
 };
 
 int parse_cpu_line(const char *line, struct CPUStatus *out);

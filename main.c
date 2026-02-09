@@ -19,9 +19,21 @@ int main() {
     } else {
       // Read the first line using fgets()
       if (fgets(buffer, BUFFER_SIZE, fp) != NULL) {
-        printf("Data from /proc/stat: %s", buffer);
+        //printf("Data from /proc/stat: %s", buffer);
+
+        // Struct to store CPU Data
+        struct CPUStatus stats;
 
         // call parser function
+        int result = parse_cpu_line(buffer, &stats);
+
+        // print out data
+        if (result == 0){
+          printf("User: %llu\n", stats.user);
+          printf("Nice: %llu\n", stats.nice);
+          printf("System: %llu\n", stats.system);
+          printf("Idle: %llu\n", stats.idle);
+        }
 
       } else {
         printf("Count not read a line or file is empty.\n");
