@@ -33,6 +33,12 @@ int main() {
           printf("Nice: %llu\n", stats.nice);
           printf("System: %llu\n", stats.system);
           printf("Idle: %llu\n", stats.idle);
+          printf("iowait: %llu\n", stats.iowait);
+          printf("irq: %llu\n", stats.irq);
+          printf("softirq: %llu\n", stats.softirq);
+          printf("Steal: %llu\n", stats.steal);
+          printf("Guest: %llu\n", stats.guest);
+          printf("Guest Nice: %llu\n", stats.guest_nice);
         }
 
       } else {
