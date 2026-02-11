@@ -9,7 +9,8 @@
 
 int main() {
   char buffer[BUFFER_SIZE];
-  struct CPUStatus* prev = NULL;
+  struct CPUStatus prev;
+  int has_prev = 0;
 
   while (1) {
     // Open /proc/stat in read mode
@@ -29,12 +30,14 @@ int main() {
         // call parser function
         int result = parse_cpu_line(buffer, &stats);
         // call usage calculation
-        if (prev != NULL){
+        if (has_prev != 0){
           double usage = compute_usage(&prev, &stats);
           printf("%f\n", usage);
+        } else {
+          has_prev++;
         }
         
-        prev = &stats;
+        prev = stats;
 
         // print out data
         if (result == 0){
