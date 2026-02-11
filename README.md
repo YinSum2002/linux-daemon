@@ -33,5 +33,7 @@ Early-stage, actively developing. Architecture and functionality are priorities 
 
 ## Author
 Justin Chan
+
 Computer Engineering
+
 Aspiring Embedded Systems Engineer
