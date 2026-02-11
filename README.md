@@ -34,6 +34,6 @@ Early-stage, actively developing. Architecture and functionality are priorities 
 ## Author
 Justin Chan
 
-Computer Engineering
+UMass Amherst - Class of 2025, Computer Engineering
 
 Aspiring Embedded Systems Engineer
