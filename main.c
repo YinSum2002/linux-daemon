@@ -3,11 +3,13 @@
 #include <unistd.h>
 #include <errno.h>
 #include "parser.h"
+#include "cpu_stats.h"
 
 #define BUFFER_SIZE 100
 
 int main() {
   char buffer[BUFFER_SIZE];
+  struct CPUStatus* prev = NULL;
 
   while (1) {
     // Open /proc/stat in read mode
@@ -26,6 +28,13 @@ int main() {
 
         // call parser function
         int result = parse_cpu_line(buffer, &stats);
+        // call usage calculation
+        if (prev != NULL){
+          double usage = compute_usage(&prev, &stats);
+          printf("%f\n", usage);
+        }
+        
+        prev = &stats;
 
         // print out data
         if (result == 0){
