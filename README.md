@@ -5,11 +5,11 @@ This project reads raw kernel statistics from /proc, parses them manually, and c
 
 ## Motivation
 As a Computer Engineering student preparing for embedded systems work, I wanted a project that:
-  - strengthens C fundamentals
-  - builds intuition for how operating systems expose system state
-  - practices parsing structured system data
-  - introduces real-time style design patterns
-  - creates a foundation for RTOS migration
+  - Strengthens C fundamentals
+  - Builds intuition for how operating systems expose system state
+  - Practices parsing structured system data
+  - Introduces real-time style design patterns
+  - Creates a foundation for RTOS migration
 
 ## Current Features
   - Reads raw CPU data from /proc/stat
