@@ -42,7 +42,7 @@ int main() {
         // print out data
         
         if (result == 0){
-          printf("CPU Data: ");
+          printf("CPU Usage: ");
         }
   
         
