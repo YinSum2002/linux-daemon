@@ -17,6 +17,6 @@ double compute_usage(struct CPUStatus* prev, struct CPUStatus* curr) {
   unsigned long long total_diff = total_time(curr) - total_time(prev);
 
   // Return percentage
-  double usage_percent = idle_diff/total_diff;
+  double usage_percent = (double)idle_diff/total_diff;
   return usage_percent;
 }
