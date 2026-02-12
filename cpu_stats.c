@@ -2,9 +2,9 @@
 
 #include <stdio.h>
 
-unsigned long long total_time(struct CPUStatus* s) { return s->idle; }
+unsigned long long idle_time(struct CPUStatus* s) { return s->idle; }
 
-unsigned long long idle_time(struct CPUStatus* s) {
+unsigned long long total_time(struct CPUStatus* s) {
   return s->guest + s->guest_nice + s->idle + s->iowait + s->irq + s->nice +
          s->softirq + s->steal + s->system + s->user;
 }
