@@ -28,7 +28,7 @@ int main() {
         struct CPUStatus stats;
 
         // call parser function
-        int result = parse_cpu_line(buffer, &stats);
+        // int result = parse_cpu_line(buffer, &stats);
         // call usage calculation
         if (has_prev != 0){
           double usage = compute_usage(&prev, &stats);
