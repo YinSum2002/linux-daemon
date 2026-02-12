@@ -18,5 +18,5 @@ double compute_usage(struct CPUStatus* prev, struct CPUStatus* curr) {
 
   // Return percentage
   double usage_percent = (double)idle_diff/total_diff;
-  return usage_percent;
+  return (double) 1 - (usage_percent);
 }
