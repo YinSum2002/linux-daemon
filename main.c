@@ -40,6 +40,7 @@ int main() {
         prev = stats;
 
         // print out data
+        /*
         if (result == 0){
           printf("User: %llu\n", stats.user);
           printf("Nice: %llu\n", stats.nice);
@@ -52,6 +53,8 @@ int main() {
           printf("Guest: %llu\n", stats.guest);
           printf("Guest Nice: %llu\n", stats.guest_nice);
         }
+        */
+        
 
       } else {
         printf("Count not read a line or file is empty.\n");
