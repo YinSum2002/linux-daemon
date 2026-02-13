@@ -33,8 +33,7 @@ void print_data(struct CPUUsage* u){
 }
 
 double compute_percent(unsigned long long curr, unsigned long long total){
-    double percent = 1.0 - ((double) curr/total);
-    return percent;
+    return (double) curr/total;
 }
 
 int compute_usage(struct CPUStatus* prev, struct CPUStatus* curr, struct CPUUsage* out) {
