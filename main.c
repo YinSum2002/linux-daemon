@@ -26,13 +26,14 @@ int main() {
 
         // Struct to store CPU Data
         struct CPUStatus stats;
+        struct CPUUsage CPU_usage;
 
         // call parser function
         int result = parse_cpu_line(buffer, &stats);
         // call usage calculation
         if (has_prev != 0){
-          double usage = compute_usage(&prev, &stats);
-          printf("%.4f%%\n", usage * 100);
+          double usage = compute_usage(&prev, &stats, &CPU_usage);
+          print_data(&CPU_usage);
         } else {
           has_prev++;
         }
