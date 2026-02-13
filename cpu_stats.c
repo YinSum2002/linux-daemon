@@ -37,7 +37,7 @@ double compute_percent(unsigned long long curr, unsigned long long total){
     return percent;
 }
 
-double compute_usage(struct CPUStatus* prev, struct CPUStatus* curr, struct CPUUsage* out) {
+int compute_usage(struct CPUStatus* prev, struct CPUStatus* curr, struct CPUUsage* out) {
   // Take difference in idle time
   unsigned long long idle_diff = idle_time(curr) - idle_time(prev);
 
@@ -57,6 +57,6 @@ double compute_usage(struct CPUStatus* prev, struct CPUStatus* curr, struct CPUU
   out->guest = compute_percent(curr->guest - prev->guest, total_diff);
   out->guest_nice = compute_percent(curr->guest_nice - prev->guest_nice, total_diff);
 
-  // Return percentage
+  // Return success/failure
   return out->total;
 }

@@ -32,22 +32,14 @@ int main() {
         int result = parse_cpu_line(buffer, &stats);
         // call usage calculation
         if (has_prev != 0){
-          double usage = compute_usage(&prev, &stats, &CPU_usage);
+          (void) compute_usage(&prev, &stats, &CPU_usage);
           print_data(&CPU_usage);
         } else {
           has_prev++;
         }
         
         prev = stats;
-
-        // print out data
         
-        if (result == 0){
-          printf("CPU Usage: ");
-        }
-  
-        
-
       } else {
         printf("Count not read a line or file is empty.\n");
       }

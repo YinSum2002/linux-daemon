@@ -26,6 +26,6 @@ void print_data(struct CPUUsage* u);
 
 double compute_percent(unsigned long long curr, unsigned long long total);
 
-double compute_usage(struct CPUStatus* prev, struct CPUStatus* curr, struct CPUUsage* out);
+int compute_usage(struct CPUStatus* prev, struct CPUStatus* curr, struct CPUUsage* out);
 
 #endif
