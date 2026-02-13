@@ -32,7 +32,7 @@ int main() {
         // call usage calculation
         if (has_prev != 0){
           double usage = compute_usage(&prev, &stats);
-          printf("%f\n", usage);
+          printf("%.4f%%\n", usage * 100);
         } else {
           has_prev++;
         }
