@@ -29,7 +29,7 @@ int main() {
         struct CPUUsage CPU_usage;
 
         // call parser function
-        int result = parse_cpu_line(buffer, &stats);
+        (void) parse_cpu_line(buffer, &stats);
         // call usage calculation
         if (has_prev != 0){
           (void) compute_usage(&prev, &stats, &CPU_usage);
