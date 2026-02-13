@@ -44,7 +44,7 @@ int compute_usage(struct CPUStatus* prev, struct CPUStatus* curr, struct CPUUsag
   unsigned long long total_diff = total_time(curr) - total_time(prev);
 
   // Fill out CPUUsage data
-  out->total = compute_percent(idle_diff, total_diff);
+  out->total = 1.0 - compute_percent(idle_diff, total_diff);
   out->user = compute_percent(curr->user - prev->user, total_diff);
   out->nice = compute_percent(curr->nice - prev->nice, total_diff);
   out->system = compute_percent(curr->system - prev->system, total_diff);
