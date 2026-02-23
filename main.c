@@ -13,12 +13,16 @@ struct SharedCPUData {
   pthread_mutex_t lock;
 };
 
+
 int main() {
   char buffer[BUFFER_SIZE];
   struct CPUStatus prev;
   int has_prev = 0;
 
+  // Initialize your mail box
   struct SharedCPUData mailBox;
+  // Initialize your mutex
+  pthread_mutex_init(&mailBox.lock, NULL);
 
   while (1) {
     // Open /proc/stat in read mode
@@ -56,6 +60,8 @@ int main() {
     }
     
   }
-
+  // destroy the mutex
+  pthread_mutex_destroy(&mailBox.lock);
+  
   return 0;
 }
