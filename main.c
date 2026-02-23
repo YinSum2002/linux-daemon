@@ -14,16 +14,12 @@ struct SharedCPUData {
 };
 
 
-int main() {
+void* sampler_thread(void* arg){
+  // void* arg must be kept as a pthread requirement
   char buffer[BUFFER_SIZE];
   struct CPUStatus prev;
-  int has_prev = 0;
-
-  // Initialize your mail box
-  struct SharedCPUData mailBox;
-  // Initialize your mutex
-  pthread_mutex_init(&mailBox.lock, NULL);
-
+  int has_prev = 0;  
+  
   while (1) {
     // Open /proc/stat in read mode
     FILE* fp = fopen("/proc/stat", "r");
@@ -60,8 +56,19 @@ int main() {
     }
     
   }
+}
+
+int main() {
+  
+
+  // Initialize your mail box
+  struct SharedCPUData mailBox;
+  // Initialize your mutex
+  pthread_mutex_init(&mailBox.lock, NULL);
+
+  sampler_thread(NULL);
   // destroy the mutex
   pthread_mutex_destroy(&mailBox.lock);
-  
+
   return 0;
 }
