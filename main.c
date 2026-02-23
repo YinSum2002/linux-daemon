@@ -1,16 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <pthread.h>
 #include <errno.h>
 #include "parser.h"
 #include "cpu_stats.h"
 
 #define BUFFER_SIZE 100
 
+struct SharedCPUData {
+  struct CPUUsage latest;
+  pthread_mutex_t lock;
+};
+
 int main() {
   char buffer[BUFFER_SIZE];
   struct CPUStatus prev;
   int has_prev = 0;
+
+  struct SharedCPUData mailBox;
 
   while (1) {
     // Open /proc/stat in read mode
