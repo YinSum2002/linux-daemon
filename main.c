@@ -97,7 +97,8 @@ int main() {
   pthread_create(&consumer_tid, NULL, consumer_thread, NULL);
 
   // Join the thread
-  pthread_join(sampler_tid, consumer_tid);
+  pthread_join(sampler_tid, NULL);
+  pthread_join(consumer_tid, NULL);
 
   // destroy the mutex
   pthread_mutex_destroy(&mailBox.lock);
