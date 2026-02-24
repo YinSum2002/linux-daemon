@@ -59,14 +59,16 @@ void* sampler_thread(void* arg){
 }
 
 int main() {
-  
-
   // Initialize your mail box
   struct SharedCPUData mailBox;
+  // Thread ID for sampler
+  pthread_t sampler_tid;
   // Initialize your mutex
   pthread_mutex_init(&mailBox.lock, NULL);
 
-  sampler_thread(NULL);
+  // create the sampler thread (last argument is the argument for the function sampler_thread. For now it's NULL, later it will be changed to &mailBox)
+  pthread_create(&sampler_tid, NULL, sampler_thread, NULL);
+
   // destroy the mutex
   pthread_mutex_destroy(&mailBox.lock);
 
