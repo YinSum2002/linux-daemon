@@ -10,10 +10,11 @@
 
 struct SharedCPUData {
   struct CPUUsage latest;
+  int has_data;
   pthread_mutex_t lock;
 };
 
-
+/* Note: This should not stay void forever */
 void* sampler_thread(void* arg){
   // void* arg must be kept as a pthread requirement
   char buffer[BUFFER_SIZE];
@@ -21,7 +22,7 @@ void* sampler_thread(void* arg){
   int has_prev = 0;
 
   // Cast input arg into mailBox
-  struct SharedCPUData* data = (struct SharedCPUData*) arg;
+  struct SharedCPUData* mailBox = (struct SharedCPUData*) arg;
   
   while (1) {
     // Open /proc/stat in read mode
@@ -41,10 +42,25 @@ void* sampler_thread(void* arg){
 
         // call parser function
         (void) parse_cpu_line(buffer, &stats);
+
         // call usage calculation
         if (has_prev != 0){
           (void) compute_usage(&prev, &stats, &CPU_usage);
-          print_data(&CPU_usage);
+
+          // lock mutex
+          pthread_mutex_lock(&mailBox->lock);
+
+          // Copy CPU Usage into struct
+          mailBox->latest = CPU_usage;
+
+          // Mark data as ready
+          mailBox->has_data = 1;
+
+          // unlock mutex
+          pthread_mutex_unlock(&mailBox->lock);
+
+          // test if data is stored correctly
+          print_data(&mailBox->latest);
         } else {
           has_prev++;
         }
