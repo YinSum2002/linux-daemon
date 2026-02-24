@@ -69,6 +69,9 @@ int main() {
   // create the sampler thread (last argument is the argument for the function sampler_thread. For now it's NULL, later it will be changed to &mailBox)
   pthread_create(&sampler_tid, NULL, sampler_thread, NULL);
 
+  // Join the thread
+  pthread_join(sampler_tid, NULL);
+
   // destroy the mutex
   pthread_mutex_destroy(&mailBox.lock);
 
