@@ -14,6 +14,12 @@ struct SharedCPUData {
   pthread_mutex_t lock;
 };
 
+void* consumer_thread(void* arg){
+  while(1){
+    sleep(1);
+  }
+}
+
 /* Note: This should not stay void forever */
 void* sampler_thread(void* arg){
   // void* arg must be kept as a pthread requirement
@@ -80,16 +86,18 @@ void* sampler_thread(void* arg){
 int main() {
   // Initialize your mail box
   struct SharedCPUData mailBox;
-  // Thread ID for sampler
+  // Thread ID for sampler and consumer
   pthread_t sampler_tid;
+  pthread_t consumer_tid;
   // Initialize your mutex
   pthread_mutex_init(&mailBox.lock, NULL);
 
-  // create the sampler thread (last argument is the argument for the function sampler_thread. For now it's NULL, later it will be changed to &mailBox)
+  // create the sampler and consumer threads(last argument is the argument for the function sampler_thread. For now it's NULL, later it will be changed to &mailBox)
   pthread_create(&sampler_tid, NULL, sampler_thread, &mailBox);
+  pthread_create(&consumer_tid, NULL, consumer_thread, NULL);
 
   // Join the thread
-  pthread_join(sampler_tid, NULL);
+  pthread_join(sampler_tid, consumer_tid);
 
   // destroy the mutex
   pthread_mutex_destroy(&mailBox.lock);
