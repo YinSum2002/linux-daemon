@@ -18,7 +18,10 @@ void* sampler_thread(void* arg){
   // void* arg must be kept as a pthread requirement
   char buffer[BUFFER_SIZE];
   struct CPUStatus prev;
-  int has_prev = 0;  
+  int has_prev = 0;
+
+  // Cast input arg into mailBox
+  struct SharedCPUData* data = (struct SharedCPUData*) arg;
   
   while (1) {
     // Open /proc/stat in read mode
@@ -67,7 +70,7 @@ int main() {
   pthread_mutex_init(&mailBox.lock, NULL);
 
   // create the sampler thread (last argument is the argument for the function sampler_thread. For now it's NULL, later it will be changed to &mailBox)
-  pthread_create(&sampler_tid, NULL, sampler_thread, NULL);
+  pthread_create(&sampler_tid, NULL, sampler_thread, &mailBox);
 
   // Join the thread
   pthread_join(sampler_tid, NULL);
