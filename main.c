@@ -83,17 +83,21 @@ void* consumer_thread(void* arg){
   // Create local CPUUsage Variable
   struct CPUUsage usage;
 
-  // Lock Mutex
-  pthread_mutex_lock(&mailBox->lock);
+  // while loop for filling usage
+  while (1){
+    // Lock Mutex
+    pthread_mutex_lock(&mailBox->lock);
 
-  // Copy shared usage into local variable
-  usage = mailBox->latest;
+    // Copy shared usage into local variable
+    usage = mailBox->latest;
 
-  // Unlock Mutex
-  pthread_mutex_unlock(&mailBox->lock);
+    // Unlock Mutex
+    pthread_mutex_unlock(&mailBox->lock);
 
-  // Print the local copy, presumably through calling print_data
-  print_data(&usage);
+    // Print the local copy, presumably through calling print_data
+    print_data(&usage);
+  }
+  
 
   // Exit the thread
   pthread_exit(NULL);
