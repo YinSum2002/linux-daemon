@@ -94,10 +94,6 @@ void* consumer_thread(void* arg){
 
   // Print the local copy, presumably through calling print_data
   print_data(&usage);
-  
-  while(1){
-    sleep(1);
-  }
 }
 
 int main() {
