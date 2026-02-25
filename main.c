@@ -96,6 +96,7 @@ void* consumer_thread(void* arg){
 
     // Print the local copy, presumably through calling print_data
     print_data(&usage);
+    sleep(1);
   }
   
 
