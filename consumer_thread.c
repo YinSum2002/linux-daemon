@@ -1,3 +1,4 @@
+#include <unistd.h>
 #include "consumer_thread.h"
 #include "shared.h"
 

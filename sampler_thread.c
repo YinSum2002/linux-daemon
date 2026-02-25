@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <unistd.h>
 #include "sampler_thread.h"
 #include "shared.h"
 
