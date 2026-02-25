@@ -86,7 +86,7 @@ void* consumer_thread(void* arg){
   // while loop for filling usage
   while (1){
     // check if has_data is true
-    if (&mailBox->has_data == 1){
+    if (mailBox->has_data == 1){
       // Lock Mutex
       pthread_mutex_lock(&mailBox->lock);
 
