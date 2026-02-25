@@ -94,6 +94,9 @@ void* consumer_thread(void* arg){
 
   // Print the local copy, presumably through calling print_data
   print_data(&usage);
+
+  // Exit the thread
+  pthread_exit(NULL);
 }
 
 int main() {
