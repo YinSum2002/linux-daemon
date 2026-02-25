@@ -14,12 +14,6 @@ struct SharedCPUData {
   pthread_mutex_t lock;
 };
 
-void* consumer_thread(void* arg){
-  while(1){
-    sleep(1);
-  }
-}
-
 /* Note: This should not stay void forever */
 void* sampler_thread(void* arg){
   // void* arg must be kept as a pthread requirement
@@ -66,7 +60,7 @@ void* sampler_thread(void* arg){
           pthread_mutex_unlock(&mailBox->lock);
 
           // test if data is stored correctly
-          print_data(&mailBox->latest);
+          // print_data(&mailBox->latest);
         } else {
           has_prev++;
         }
@@ -79,7 +73,30 @@ void* sampler_thread(void* arg){
       fclose(fp);
       sleep(1);
     }
-    
+  }
+}
+
+void* consumer_thread(void* arg){
+  // Cast input arg into mailBox
+  struct SharedCPUData* mailBox = (struct SharedCPUData*) arg;
+  
+  // Create local CPUUsage Variable
+  struct CPUUsage usage;
+
+  // Lock Mutex
+  pthread_mutex_lock(&mailBox->lock);
+
+  // Copy shared usage into local variable
+  usage = mailBox->latest;
+
+  // Unlock Mutex
+  pthread_mutex_unlock(&mailBox->lock);
+
+  // Print the local copy, presumably through calling print_data
+  print_data(&usage);
+  
+  while(1){
+    sleep(1);
   }
 }
 
