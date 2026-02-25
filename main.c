@@ -5,105 +5,105 @@
 #include <errno.h>
 #include "parser.h"
 #include "cpu_stats.h"
+#include "sampler_thread.h"
+#include "consumer_thread.h"
+#include "shared.h"
 
-#define BUFFER_SIZE 100
+// #define BUFFER_SIZE 100
 
-struct SharedCPUData {
-  struct CPUUsage latest;
-  int has_data;
-  pthread_mutex_t lock;
-};
+// struct SharedCPUData {
+//   struct CPUUsage latest;
+//   int has_data;
+//   pthread_mutex_t lock;
+// };
 
-/* Note: This should not stay void forever */
-void* sampler_thread(void* arg){
-  // void* arg must be kept as a pthread requirement
-  char buffer[BUFFER_SIZE];
-  struct CPUStatus prev;
-  int has_prev = 0;
+// /* Note: This should not stay void forever */
+// void* sampler_thread(void* arg){
+//   // void* arg must be kept as a pthread requirement
+//   char buffer[BUFFER_SIZE];
+//   struct CPUStatus prev;
+//   int has_prev = 0;
 
-  // Cast input arg into mailBox
-  struct SharedCPUData* mailBox = (struct SharedCPUData*) arg;
+//   // Cast input arg into mailBox
+//   struct SharedCPUData* mailBox = (struct SharedCPUData*) arg;
   
-  while (1) {
-    // Open /proc/stat in read mode
-    FILE* fp = fopen("/proc/stat", "r");
-    if (fp == NULL){
-      perror("fopen failed");
-      sleep(1);
-      continue;
-    } else {
-      // Read the first line using fgets()
-      if (fgets(buffer, BUFFER_SIZE, fp) != NULL) {
-        //printf("Data from /proc/stat: %s", buffer);
+//   while (1) {
+//     // Open /proc/stat in read mode
+//     FILE* fp = fopen("/proc/stat", "r");
+//     if (fp == NULL){
+//       perror("fopen failed");
+//       sleep(1);
+//       continue;
+//     } else {
+//       // Read the first line using fgets()
+//       if (fgets(buffer, BUFFER_SIZE, fp) != NULL) {
+//         //printf("Data from /proc/stat: %s", buffer);
 
-        // Struct to store CPU Data
-        struct CPUStatus stats;
-        struct CPUUsage CPU_usage;
+//         // Struct to store CPU Data
+//         struct CPUStatus stats;
+//         struct CPUUsage CPU_usage;
 
-        // call parser function
-        (void) parse_cpu_line(buffer, &stats);
+//         // call parser function
+//         (void) parse_cpu_line(buffer, &stats);
 
-        // call usage calculation
-        if (has_prev != 0){
-          (void) compute_usage(&prev, &stats, &CPU_usage);
+//         // call usage calculation
+//         if (has_prev != 0){
+//           (void) compute_usage(&prev, &stats, &CPU_usage);
 
-          // lock mutex
-          pthread_mutex_lock(&mailBox->lock);
+//           // lock mutex
+//           pthread_mutex_lock(&mailBox->lock);
 
-          // Copy CPU Usage into struct
-          mailBox->latest = CPU_usage;
+//           // Copy CPU Usage into struct
+//           mailBox->latest = CPU_usage;
 
-          // Mark data as ready
-          mailBox->has_data = 1;
+//           // Mark data as ready
+//           mailBox->has_data = 1;
 
-          // unlock mutex
-          pthread_mutex_unlock(&mailBox->lock);
-
-          // test if data is stored correctly
-          // print_data(&mailBox->latest);
-        } else {
-          has_prev++;
-        }
+//           // unlock mutex
+//           pthread_mutex_unlock(&mailBox->lock);
+//         } else {
+//           has_prev++;
+//         }
         
-        prev = stats;
+//         prev = stats;
         
-      } else {
-        printf("Count not read a line or file is empty.\n");
-      }
-      fclose(fp);
-      sleep(1);
-    }
-  }
-}
+//       } else {
+//         printf("Count not read a line or file is empty.\n");
+//       }
+//       fclose(fp);
+//       sleep(1);
+//     }
+//   }
+// }
 
-void* consumer_thread(void* arg){
-  // Cast input arg into mailBox
-  struct SharedCPUData* mailBox = (struct SharedCPUData*) arg;
+// void* consumer_thread(void* arg){
+//   // Cast input arg into mailBox
+//   struct SharedCPUData* mailBox = (struct SharedCPUData*) arg;
   
-  // Create local CPUUsage Variable
-  struct CPUUsage usage;
+//   // Create local CPUUsage Variable
+//   struct CPUUsage usage;
 
-  // while loop for filling usage
-  while (1){
-    // check if has_data is true
-    if (mailBox->has_data == 1){
-      // Lock Mutex
-      pthread_mutex_lock(&mailBox->lock);
+//   // while loop for filling usage
+//   while (1){
+//     // check if has_data is true
+//     if (mailBox->has_data == 1){
+//       // Lock Mutex
+//       pthread_mutex_lock(&mailBox->lock);
 
-      // Copy shared usage into local variable
-      usage = mailBox->latest;
-      mailBox->has_data = 0;
-      // Unlock Mutex
-      pthread_mutex_unlock(&mailBox->lock);
+//       // Copy shared usage into local variable
+//       usage = mailBox->latest;
+//       mailBox->has_data = 0;
+//       // Unlock Mutex
+//       pthread_mutex_unlock(&mailBox->lock);
 
-      // Print the local copy, presumably through calling print_data
-      print_data(&usage);
-      sleep(1);
-    }    
-  }
-  // Exit the thread
-  pthread_exit(NULL);
-}
+//       // Print the local copy, presumably through calling print_data
+//       print_data(&usage);
+//       sleep(1);
+//     }    
+//   }
+//   // Exit the thread
+//   pthread_exit(NULL);
+// }
 
 int main() {
   // Initialize your mail box
