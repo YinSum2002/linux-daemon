@@ -4,9 +4,10 @@
 #include <pthread.h>
 
 struct SharedCPUData {
-  struct CPUUsage latest;
-  int has_data;
   pthread_mutex_t lock;
+  pthread_cond_t data_ready;
+  int has_data;
+  struct CPUUsage latest;
 };
 
 #endif

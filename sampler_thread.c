@@ -2,8 +2,11 @@
 #include <unistd.h>
 #include "sampler_thread.h"
 #include "shared.h"
+#include "cpu_stats.h"
+#include "parser.h"
 
 #define BUFFER_SIZE 100
+#define SAMPLE_INTERVAL 60
 
 /* Note: This should not stay void forever */
 void* sampler_thread(void* arg){
@@ -59,7 +62,7 @@ void* sampler_thread(void* arg){
         printf("Count not read a line or file is empty.\n");
       }
       fclose(fp);
-      sleep(1);
+      sleep(SAMPLE_INTERVAL);
     }
   }
 }
