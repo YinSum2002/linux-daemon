@@ -37,7 +37,25 @@ void logger_log(log_level_t level, const char* fmt) {
 
   pthread_mutex_lock(&log_mutex);
 
-  //
+  // Get current time
+  time_t current_time;
+  time(&current_time);
+
+  // Convert it to calendar format
+  struct tm *tm_info = localtime(&current_time);
+
+  // Format the timestamp string
+  char timeBuffer[32];
+  strftime(timeBuffer, sizeof(timeBuffer), "%Y-%m-%d %H:%M:%S", tm_info);
+
+  // Convert the log level to text
+
+
+  // Write the formatted log entry to the file
+
+
+  // Flush the file
+
 
   pthread_mutex_unlock(&log_mutex);
 }
