@@ -49,13 +49,28 @@ void logger_log(log_level_t level, const char* fmt) {
   strftime(timeBuffer, sizeof(timeBuffer), "%Y-%m-%d %H:%M:%S", tm_info);
 
   // Convert the log level to text
+  const char* level_str;
 
+  switch (level) {
+    case LOG_INFO:
+        level_str = "INFO";
+        break;
+    case LOG_WARN:
+        level_str = "WARN";
+        break;
+    case LOG_ERROR:
+        level_str = "ERROR";
+        break;
+    default:
+        level_str = "UNKNOWN";
+        break;
+  }
 
   // Write the formatted log entry to the file
-
+  fprintf(log_file, "%s %s %s\n", timeBuffer, level_str, fmt);
 
   // Flush the file
-
+  fflush(log_file);
 
   pthread_mutex_unlock(&log_mutex);
 }
