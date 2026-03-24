@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include "consumer_thread.h"
+#include "logging.h"
 #include "shared.h"
 
 void* consumer_thread(void* arg){
@@ -23,7 +24,9 @@ void* consumer_thread(void* arg){
       pthread_mutex_unlock(&mailBox->lock);
 
       // Print the local copy, presumably through calling print_data
-      print_data(&usage);
+      // print_data(&usage);
+      // log
+      log_cpu_stats(usage);
       sleep(1);
     }    
   }

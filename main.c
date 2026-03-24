@@ -19,6 +19,9 @@ int main() {
   // Initialize your mutex
   pthread_mutex_init(&mailBox.lock, NULL);
 
+  // initialize logger
+  logger_init("cpu_monitor.log");
+
   // create the sampler and consumer threads
   pthread_create(&sampler_tid, NULL, sampler_thread, &mailBox);
   pthread_create(&consumer_tid, NULL, consumer_thread, &mailBox);
@@ -26,6 +29,9 @@ int main() {
   // Join the thread
   pthread_join(sampler_tid, NULL);
   pthread_join(consumer_tid, NULL);
+
+  // shutdown logger
+  logger_close();
 
   // destroy the mutex
   pthread_mutex_destroy(&mailBox.lock);
